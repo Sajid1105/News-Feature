@@ -1,0 +1,9 @@
+# Ignore environment files
+.env
+backend/.env
+
+# Common ignores
+node_modules/
+.vscode/
+dist/
+build/
