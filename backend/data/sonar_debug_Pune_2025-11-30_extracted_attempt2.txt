@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Khopoli Emerges as India's Hottest Investment with Major Infrastructure Catalysts",
+    "description": "Khopoli positioned as strategic growth node with 1.2 lakh crore infrastructure investment including Navi Mumbai International Airport opening late 2025, Missing Link expressway, and Mumbai Metro Line 8 boosting real estate and industrial expansion.",
+    "source": "PR Newswire",
+    "link": "https://www.prnewswire.com/in/news-releases/khopoli-indias-hottest-investment-is-taking-off-302627592.html"
+  },
+  {
+    "title": "CPP Investments and IndoSpace Expand Joint Venture with US$300 Million Logistics Parks Acquisition",
+    "description": "CPP Investments and IndoSpace complete US$300 million acquisition of six logistics parks in India, expanding their joint venture and strengthening logistics infrastructure across major metropolitan regions.",
+    "source": "CPP Investments",
+    "link": "https://www.cppinvestments.com/newsroom/cpp-investments-and-indospace-expand-joint-venture-with-us300-million-acquisition-of-six-logistics-parks/"
+  },
+  {
+    "title": "India's Top 6 Cities Record 26% Rise in New Office Supply; Pune Leads with 3.7 Million Sq Ft",
+    "description": "Pune dominates India's office space expansion with 3.7 million sq ft new supply among top six cities showing 26% growth. Rising H-1B visa restrictions drive increased Global Capability Centre expansion and office leasing demand.",
+    "source": "Economic Times",
+    "link": "https://economictimes.com/markets/digital-real-estate/realty-news/indias-top-6-cities-see-26-rise-in-new-office-supply-pune-max-at-3-7-mn-sq-ft-vestian/articleshow/125215715.cms"
+  },
+  {
+    "title": "Pune's Office Stock Expected to Rise 49% to 140 Million Sq Ft by 2030",
+    "description": "Pune's commercial real estate market set for substantial expansion with office stock projected to increase 49% reaching 140 million sq ft by 2030, driven by rising IT sector demand and developer supply growth.",
+    "source": "Pune Kar News",
+    "link": "https://www.punekarnews.in/punes-office-stock-expected-to-rise-49-to-140-million-sq-ft-by-2030/"
+  }
+]

@@ -11,6 +11,8 @@ const SONAR_API_KEY = process.env.SONAR_API_KEY;
 
 app.get("/api/news/:area", async (req, res) => {
   const area = req.params.area;
+
+  // <-- USE THE FULL PROMPT HERE (don't replace with a placeholder) -->
   const prompt = `
 Provide the 4 most recent and verified news updates related to real estate and infrastructure in ${area}. Focus strictly on factual updates such as:
 - New residential or commercial project launches
@@ -45,6 +47,7 @@ Make sure:
 `;
 
   try {
+    // call Sonar
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: {
@@ -53,29 +56,59 @@ Make sure:
       },
       body: JSON.stringify({
         model: "sonar-pro",
-        messages: [
-          {
-            role: "user",
-            content: prompt
-          }
-        ]
+        messages: [{ role: "user", content: prompt }]
       })
     });
 
-    const data = await response.json();
+    // read raw text (model often wraps output)
+    const raw = await response.text();
 
-    if (!data.choices || !data.choices[0]) {
-      console.error("⚠️ Unexpected response:", data);
-      return res.status(500).json({ error: "Invalid response from Sonar API" });
+    // quick debug save (optional)
+    try {
+      if (!fs.existsSync("./data")) fs.mkdirSync("./data");
+      fs.writeFileSync(`./data/sonar_raw_${safeAreaName(area)}.txt`, raw);
+    } catch (e) { /* ignore write errors */ }
+
+    // Try to extract JSON array
+    let content = raw;
+
+    // Strip code fences like ```json ... ``` or ```
+    const fenceMatch = content.match(/```(?:json)?\n([\s\S]*?)```/i);
+    if (fenceMatch && fenceMatch[1]) content = fenceMatch[1].trim();
+
+    // If content does not start with [ try to find first array substring
+    if (!content.trim().startsWith("[")) {
+      const arrMatch = content.match(/\[[\s\S]*\]/);
+      if (arrMatch) content = arrMatch[0];
     }
 
-    const content = data.choices[0].message.content;
-    const newsArray = JSON.parse(content);
-    res.json(newsArray);
+    // Remove single backticks if wrapped
+    if (/^`[\s\S]*`$/.test(content.trim())) {
+      content = content.trim().replace(/^`|`$/g, "");
+    }
+
+    // Final parse
+    let parsed;
+    try {
+      parsed = JSON.parse(content);
+    } catch (err) {
+      console.error("Failed to parse JSON after cleanup. Raw response saved.");
+      return res.status(500).json({
+        error: "Failed to parse Sonar JSON. Raw saved to backend/data for inspection.",
+      });
+    }
+
+    // Basic validation (array of up to 4; you can change to require 4)
+    if (!Array.isArray(parsed)) {
+      return res.status(500).json({ error: "Parsed response is not an array" });
+    }
+
+    return res.json(parsed);
   } catch (error) {
     console.error("❌ Something went wrong:", error);
-    res.status(500).json({ error: "Failed to fetch news" });
+    return res.status(500).json({ error: "Failed to fetch news" });
   }
 });
+
 
 app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}`));
